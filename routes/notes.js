@@ -22,3 +22,33 @@ notes.get("/:note_id", (req, res) => {
         : res.json("No tip with that ID");
     });
 });
+
+notes.delete("./db/db.json", (req, res) => {
+  const noteID = req.params.note_id;
+  readFromFile("./db/db.json")
+    .then((data) => JSON.parse(data))
+    .then((json) => {
+      const output = json.filter((note) => note.note_id !== noteID);
+      writeToFile("./db/db.json", output);
+      res.json(`Item ${noteID} has been deleted.`);
+    });
+});
+
+notes.post("/", (req, res) => {
+  const { title, text } = req.body;
+
+  if (req.body) {
+    const postItNote = {
+      title,
+      text,
+      note_id: uuidv4(),
+    };
+
+    readAndAppend(postItNote, "./db/db.json");
+    res.json("Note added.");
+  } else {
+    res.error("Note add failed.");
+  }
+});
+
+module.exports = notes;
