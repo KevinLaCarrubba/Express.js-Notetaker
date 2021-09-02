@@ -23,7 +23,7 @@ notes.get("/:note_id", (req, res) => {
     });
 });
 
-notes.delete("./db/db.json", (req, res) => {
+notes.delete("/:note_id", (req, res) => {
   const noteID = req.params.note_id;
   readFromFile("./db/db.json")
     .then((data) => JSON.parse(data))
