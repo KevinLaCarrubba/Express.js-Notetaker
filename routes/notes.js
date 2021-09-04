@@ -55,6 +55,7 @@ notes.post("/", (req, res) => {
   const { title, text } = req.body;
 //if there is content 
   if (req.body) {
+    //create postItnote object
     const postItNote = {
       title,
       text,
